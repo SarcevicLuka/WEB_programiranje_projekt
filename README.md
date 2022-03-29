@@ -15,3 +15,8 @@ Sve informacije se spremaju na server.
 - Node.js
 - react
 - Firebase
+
+### Korišteni alati
+
+- VS Code
+- gitHub
