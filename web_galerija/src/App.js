@@ -1,10 +1,14 @@
-
+import ImageGrid from './components/ImageGrid';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
-    <div className="App">
-      <p>LukaSarac</p>
+    <div>
+      <NavBar />
+      <ImageGrid />
     </div>
+
+
   );
 }
 
