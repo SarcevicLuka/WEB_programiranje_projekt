@@ -1,9 +1,11 @@
 import ImageGrid from './components/ImageGrid';
 import NavBar from './components/NavBar';
+import LogIn from './components/LogIn';
 import { useEffect, useState } from "react";
 import { storage } from "./firebase-config";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+
 
 function App() {
 
@@ -43,8 +45,11 @@ function App() {
       {imageList.map((url) => {
         return <img src={url}/>
       })}
+      
+
 
       <ImageGrid />
+      <LogIn />
     </div>
 
 
