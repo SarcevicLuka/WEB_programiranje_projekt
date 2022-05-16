@@ -1,32 +1,32 @@
-import { Row, Col } from "react-bootstrap";
-import { Routes, Route } from "react-router-dom";
-import "./css/App.css";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { UserAuthContextProvider } from "./context/UserAuthContext";
+import ImageGrid from './components/ImageGrid';
+import NavBar from './components/NavBar';
+import LogIn from './components/LogIn';
+import { useEffect, useState } from "react";
+import { storage } from "./firebase-config";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
+
 
 function App() {
   return (
-      <Row>
-        <Col>
-          <UserAuthContextProvider>
-            <Routes>
-              <Route
-                path="/home"
-                element={
-                  <ProtectedRoute>
-                    <Home />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<SignUp />} />
-            </Routes>
-          </UserAuthContextProvider>
-        </Col>
-      </Row>
+    <div>
+      <NavBar />
+      
+      <input type="file" onChange={(event) => {
+        setImageUpload(event.target.files[0]);
+      }} />
+      <button onClick={uploadImage}>Upload Image</button>
+      {imageList.map((url) => {
+        return <img src={url}/>
+      })}
+      
+
+
+      <ImageGrid />
+      <LogIn />
+    </div>
+
+
   );
 }
 
