@@ -1,53 +1,32 @@
-import ImageGrid from './components/ImageGrid';
-import NavBar from './components/NavBar';
-import { useEffect, useState } from "react";
-import { storage } from "./firebase-config";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
+import { Row, Col } from "react-bootstrap";
+import { Routes, Route } from "react-router-dom";
+import "./css/App.css";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 function App() {
-
-  const [imageUpload, setImageUpload] = useState(null);
-  const [imageList, setImageList] = useState([]);
-
-  const imageListRef = ref(storage, `images/`);
-  const uploadImage = () => {
-    if(imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImageList((prev) => [...prev, url]);
-      });
-    });
-  };
-
-  useEffect(() => {
-    listAll(imageListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setImageList((prev) => [...prev, url]);
-        });
-      });
-    });
-  }, []);
-
-
   return (
-    <div>
-      <NavBar />
-      
-      <input type="file" onChange={(event) => {
-        setImageUpload(event.target.files[0]);
-      }} />
-      <button onClick={uploadImage}>Upload Image</button>
-      {imageList.map((url) => {
-        return <img src={url}/>
-      })}
-
-      <ImageGrid />
-    </div>
-
-
+      <Row>
+        <Col>
+          <UserAuthContextProvider>
+            <Routes>
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Routes>
+          </UserAuthContextProvider>
+        </Col>
+      </Row>
   );
 }
 

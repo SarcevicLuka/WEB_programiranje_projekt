@@ -1,39 +1,24 @@
-import {Container, Row, Col} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/imageGrid.css';
+import React from 'react';
+import useFirestore from '../hooks/useFirestore';
+import { motion } from 'framer-motion';
 
-function ImageGrid() {
-  return (
-    <Container className='mainGrid' align='center'>
-  <Row>
-    <Col>
-    <img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/66/Pakrac2017.jpg"
-    alt="new"
-    />
-    </Col>
-    <Col><img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/66/Pakrac2017.jpg"
-    alt="new"
-    /></Col>
-  </Row>
-  <Row>
-    <Col><img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/66/Pakrac2017.jpg"
-    alt="new"
-    /></Col>
-    <Col><img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/66/Pakrac2017.jpg"
-    alt="new"
-    /></Col>
-    <Col><img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/66/Pakrac2017.jpg"
-    alt="new"
-    /></Col>
-  </Row>
-</Container>
+const ImageGrid = () => {
+    const { docs } = useFirestore('images');
+    console.log(docs);
 
-  );
+    return (
+        <div className="img-grid">
+            { docs && docs.map((doc) => (
+                <motion.div className='img-wrap' key={doc.id}
+                    layout> 
+                    <motion.img src={doc.url} alt="alternate text"
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{delay: 1}}/> 
+                </motion.div>
+            )) }
+        </div>
+    )
 }
 
 export default ImageGrid;
