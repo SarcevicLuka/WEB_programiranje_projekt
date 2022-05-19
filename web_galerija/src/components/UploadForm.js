@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Container, Spinner } from 'react-bootstrap';
+import { Form, Container } from 'react-bootstrap';
 import ProgressBar from './ProgressBar';
 
 const UploadForm = () => {
@@ -7,7 +7,6 @@ const UploadForm = () => {
     const [image, setImage] = useState(null);
     const [error, setError] = useState(null);
     const types = ['image/png', 'image/jpeg'];
-    console.log(image);
 
     const changeHandler = (e) => {
         let selectedImage = e.target.files[0];

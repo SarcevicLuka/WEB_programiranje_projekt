@@ -2,7 +2,6 @@ import { React, useState } from "react";
 import { Navbar, Nav, Container, NavDropdown, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NavBar = () => {
   const [error, setError] = useState(null);

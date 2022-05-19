@@ -1,21 +1,12 @@
-.img-grid{
-  margin: 20px 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 40px;
+.row .col {
+  padding: 0 4px;
+  height: 100%;
 }
-.img-wrap{
-  overflow: hidden;
-  height: 0;
-  padding: 50% 0;
-  position: relative;
-  opacity: 0.8;
-}
-.img-wrap img{
-  max-width: 300px;
-  min-height: 100%;
-  max-width: 150%;
-  position: absolute;
-  top: 0;
-  left: 0;
+
+img {
+  max-width: 400px;
+  margin-top: 2%;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
 }

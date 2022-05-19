@@ -9,8 +9,6 @@ import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 function App() {
   return (
-      <Row>
-        <Col>
           <UserAuthContextProvider>
             <Routes>
               <Route
@@ -25,8 +23,6 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
             </Routes>
           </UserAuthContextProvider>
-        </Col>
-      </Row>
   );
 }
 
