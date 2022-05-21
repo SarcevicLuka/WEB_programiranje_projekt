@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase";
 
+
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
@@ -15,14 +16,14 @@ export function UserAuthContextProvider({ children }) {
 
   async function logIn(email, password) {
     await setPersistence(auth, browserLocalPersistence).then(() => {
-      console.log("Signed in");
       return signInWithEmailAndPassword(auth, email, password);
     });
     console.log("Still waiting");
   }
 
   function signUp(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+    createUserWithEmailAndPassword(auth, email, password);
+    console.log(user);
   }
 
   function logOut() {
@@ -31,7 +32,6 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      console.log("Auth", currentuser);
       setUser(currentuser);
     });
 

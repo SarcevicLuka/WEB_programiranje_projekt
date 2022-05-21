@@ -1,25 +1,28 @@
 import { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { onSnapshot, doc, collection } from 'firebase/firestore';
+import { useUserAuth } from '../context/UserAuthContext';
 
 const useFirestore = (col) => {
-    const[docs, setDocs] = useState([]);
+    const[posts, setPosts] = useState([]);
+    const { user } = useUserAuth();
 
     useEffect(() => {
-        const q = query(collection(firestore, col), orderBy("created_at", "desc"));
-
-        const unsucscribe = onSnapshot(q, (snapshot) => {
-            let documents = [];
-            snapshot.docs.forEach((doc) => {
-                documents.push({...doc.data(), id: doc.id})
-            }); 
-            setDocs(documents);
+        console.log(user.email);
+        const document = doc(firestore, col, `${user.email}`)
+        const unsubscribe = onSnapshot(document, (doc) => {
+            console.log(doc.data().posts)
+            setPosts(doc.data().posts);
         })    
 
-        return () => unsucscribe();
-    }, [col])
+        return () => unsubscribe();
+    }, [user])
 
-    return { docs };
+    /*posts.map((post) => {
+        console.log(post);
+    })*/
+
+    return { posts };
 }
 
 export default useFirestore;
