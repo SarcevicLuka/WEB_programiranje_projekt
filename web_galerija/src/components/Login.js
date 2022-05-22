@@ -15,9 +15,9 @@ const Login = () => {
     setError("");
     try {
       await logIn(email, password);
-      navigate("/home");
     } catch (err) {
       setError(err.message);
+      console.log(error);
     }
   };
 
@@ -25,14 +25,14 @@ const Login = () => {
     if (user) {
       navigate("/home");
     }
-  }, [])
+  }, [user])
 
   return (
     <>
       <Container style={{maxWidth: "400px"}}>
         <div className="p-4 box">
           <h2 className="mb-3 text-center">Log In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
+          {error && <Alert variant="danger" className="text-center">Wrong e-mail or password</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Control

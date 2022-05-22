@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut, setPersistence, 
-  browserLocalPersistence
+  browserSessionPersistence
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -15,15 +15,13 @@ export function UserAuthContextProvider({ children }) {
   const [user, setUser] = useState({});
 
   async function logIn(email, password) {
-    await setPersistence(auth, browserLocalPersistence).then(() => {
+    await setPersistence(auth, browserSessionPersistence).then(() => {
       return signInWithEmailAndPassword(auth, email, password);
-    });
-    console.log("Still waiting");
+    })
   }
 
   function signUp(email, password) {
     createUserWithEmailAndPassword(auth, email, password);
-    console.log(user);
   }
 
   function logOut() {
