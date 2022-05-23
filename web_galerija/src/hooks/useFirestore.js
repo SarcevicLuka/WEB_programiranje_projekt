@@ -16,7 +16,7 @@ const useFirestore = (col) => {
 
     useEffect(() => {
         const unsubscribe = onSnapshot(document, (doc) => {
-            setPosts(doc.data().posts.reverse());
+            setPosts(doc.data().posts);
         })    
 
         return () => unsubscribe();

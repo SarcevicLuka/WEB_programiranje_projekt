@@ -18,10 +18,10 @@ const ImageGrid = () => {
         <Container>
             <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
                 {posts && posts.map((post) => (
-                    <motion.div className="col m-auto d-flex justify-content-center" layout >
+                    <div className="col m-auto d-flex justify-content-center">
                         <figure className="figure">
                             <div className='img-container'>
-                                <motion.img src={post.url}
+                                <img src={post.url}
                                     className="figure-img img-fluid rounded img-thumbnail"
                                     alt={post.description}
                                     key={post.id}
@@ -32,13 +32,13 @@ const ImageGrid = () => {
                                     <figcaption className="figure-caption">
                                         <h5>Posted by:</h5>
                                         <p>{user.email}</p>
-                                        <p>post.description</p>
+                                        <p className='img-decription'>{post.description}</p>
                                         <Button variant="outline-danger" onClick={() => handleDelete(post.id)}>Delete</Button>
                                     </figcaption>
                                 </div>
                             </div>
                         </figure>
-                    </motion.div>
+                    </div>
                 ))}
             </div>
         </Container>

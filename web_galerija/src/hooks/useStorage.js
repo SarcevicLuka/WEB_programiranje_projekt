@@ -4,7 +4,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
-const useStorage = (image) => {
+const useStorage = (image, postDesc) => {
     const { user } = useUserAuth();
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ const useStorage = (image) => {
                         createdAt: date,
                         id: date + user.email,
                         url: url,
-                        description: "Description"
+                        description: postDesc
                     })
                 })
                 
