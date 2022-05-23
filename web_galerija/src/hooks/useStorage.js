@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { storage, firestore } from '../firebase';
-import { getDownloadURL, getMetadata, ref, uploadBytesResumable } from "firebase/storage"
-import { doc, serverTimestamp, updateDoc, arrayUnion } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
+import { doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
 const useStorage = (image) => {
@@ -16,34 +16,26 @@ const useStorage = (image) => {
 
     useEffect(() => {
         const uploadTask = uploadBytesResumable(storageRef, image);
-
         uploadTask.on('state_changed', (snapshot) => {
             let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setProgress(percentage);
-
-            
+            setProgress(percentage);   
         },
         (err) => {
             setError(err);
         },
         async () => {
             await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                let createdAt;
-                getMetadata(storageRef)
-                    .then((metadata) => {
-                        createdAt = metadata.timeCreated;
-                        console.log(createdAt);
-                    })
-
+                let date = Timestamp.now();
                 setUrl(url);
                 updateDoc(docRef, {
                     posts: arrayUnion ({
-                        createdAt: createdAt,
-                        id: createdAt + user.email,
+                        createdAt: date,
+                        id: date + user.email,
                         url: url,
                         description: "Description"
                     })
                 })
+                
             }
             );
         }
