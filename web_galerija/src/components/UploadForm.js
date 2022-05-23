@@ -60,7 +60,7 @@ const UploadForm = () => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={2} onChange={(e) => setPostDesc(e.target.value)}/>
+                            <Form.Control as="textarea" maxlength="70" rows={2} onChange={(e) => setPostDesc(e.target.value)}/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
