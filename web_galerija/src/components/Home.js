@@ -9,7 +9,7 @@ const Home = () => {
     <>
       <NavBar />
       <div>
-        <UploadForm />
+          <UploadForm />
         <ImageGrid />
       </div>
     </>

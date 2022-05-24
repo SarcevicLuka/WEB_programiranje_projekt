@@ -1,9 +1,7 @@
 import React from 'react';
 import useFirestore from '../hooks/useFirestore';
-import { motion } from 'framer-motion';
 import { Container, Button } from "react-bootstrap";
 import { useUserAuth } from '../context/UserAuthContext';
-import { updateDoc } from 'firebase/firestore';
 
 const ImageGrid = () => {
     const { posts, deletePost } = useFirestore("users");

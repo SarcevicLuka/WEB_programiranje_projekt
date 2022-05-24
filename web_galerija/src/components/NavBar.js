@@ -1,12 +1,17 @@
 import { React, useState } from "react";
-import { Navbar, Nav, Container, NavDropdown, Alert } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
+import { Navbar, Nav, Container, NavDropdown, Alert, Offcanvas } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
+import CreateJoinGroupForm from "./CreateJoinGroupForm";
 
 const NavBar = () => {
   const [error, setError] = useState(null);
+  const [showCanvas, setShowCanvas] = useState(false);
   const { logOut, user } = useUserAuth();
   const navigate = useNavigate();
+
+  const handleClose = () => setShowCanvas(false);
+  const handleShow = () => setShowCanvas(true);
 
   const handleLogout = async () => {
     try {
@@ -25,7 +30,7 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-5">
-            <Nav.Link as={Link} to="/groupImages">Group Images</Nav.Link>
+            <Nav.Link onClick={handleShow}>Groups</Nav.Link>
           </Nav>
           <NavDropdown title={"Signed in as: " + user.email} id="navbarScrollingDropdown" className="ms-auto">
             <NavDropdown.Item onClick={handleLogout}>Sign Out</NavDropdown.Item>
@@ -33,6 +38,15 @@ const NavBar = () => {
           </NavDropdown>
         </Navbar.Collapse>
       </Container>
+
+      <Offcanvas show={showCanvas} onHide={handleClose} scroll={true}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Your groups</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <CreateJoinGroupForm />
+        </Offcanvas.Body>
+      </Offcanvas>
     </Navbar>
 
   );

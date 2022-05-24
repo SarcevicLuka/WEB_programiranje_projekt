@@ -11,7 +11,11 @@ const UploadForm = () => {
     const types = ['image/png', 'image/jpeg'];
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setImage(null);
+        setPostDesc("");
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
 
     const changeHandler = (e) => {
@@ -59,8 +63,8 @@ const UploadForm = () => {
                             className="mb-3 mt-2"
                             controlId="exampleForm.ControlTextarea1"
                         >
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" maxlength="70" rows={2} onChange={(e) => setPostDesc(e.target.value)}/>
+                            <Form.Label>Enter post description</Form.Label>
+                            <Form.Control as="textarea" maxLength="70" rows={2} onChange={(e) => setPostDesc(e.target.value)}/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>

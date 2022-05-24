@@ -1,28 +1,66 @@
 import { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
-import { onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs, arrayUnion } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
 const useFirestore = (col) => {
-    const[posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [groups, setGroups] = useState([]);
     const { user } = useUserAuth();
-    const document = doc(firestore, col, `${user.email}`);
+    let date = Timestamp.now();
+
 
     const deletePost = async (result) => {
-        await updateDoc(document, {
-            posts: result,
+        const document = doc(firestore, col, `${user.email}`);
+        try {
+            await updateDoc(document, {
+                posts: result,
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const createGroup = async (groupName) => {
+        const groupDoc = doc(firestore, 'groups', date + "_" + user.email);
+        try {
+            await setDoc(groupDoc, {
+                groupName: groupName,
+                users: [user.email],
+                posts: [],
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getUsersGroups = () => {
+        const groupsDoc = collection(firestore, "groups");
+        onSnapshot(groupsDoc, async () => {
+            const getUsersGroupsQuery = query(collection(firestore, "groups"), where('users', 'array-contains', `${user.email}`));
+            const querySnapshot = await getDocs(getUsersGroupsQuery);
+            let usersGroups = [];
+            querySnapshot.forEach((doc) => {
+                usersGroups.push({ ...doc.data(), groupName: doc.data().groupName, id: doc.id });
+            });
+            setGroups(usersGroups);
         })
     }
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(document, (doc) => {
+        const document = doc(firestore, col, `${user.email}`);
+        const unsubscribePosts = onSnapshot(document, (doc) => {
             setPosts(doc.data().posts);
-        })    
+        })
 
-        return () => unsubscribe();
+        getUsersGroups();
+
+        return () => {
+            unsubscribePosts();
+        };
     }, [user])
 
-    return { posts, deletePost };
+    return { posts, groups, deletePost, createGroup };
 }
 
 export default useFirestore;
