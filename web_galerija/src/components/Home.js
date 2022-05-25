@@ -9,8 +9,8 @@ const Home = () => {
     <>
       <NavBar />
       <div>
-          <UploadForm />
-        <ImageGrid />
+        <UploadForm />
+        <ImageGrid collection="users"/>
       </div>
     </>
   );

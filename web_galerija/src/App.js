@@ -1,10 +1,10 @@
-import { Row, Col } from "react-bootstrap";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./css/App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Group from "./components/Group";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/group" element={<Group />}></Route>
       </Routes>
     </UserAuthContextProvider>
   );

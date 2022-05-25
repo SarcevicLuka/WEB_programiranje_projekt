@@ -11,7 +11,7 @@ const useStorage = (image, postDesc) => {
     const [url, setUrl] = useState(null);
 
     const storageRef = ref(storage, `images/${image.name}`);    
-    const docRef = doc(firestore, 'users', `${user.email}`);
+    const usersDocRef = doc(firestore, 'users', `${user.email}`);
 
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const useStorage = (image, postDesc) => {
             await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 let date = Timestamp.now();
                 setUrl(url);
-                updateDoc(docRef, {
+                updateDoc(usersDocRef, {
                     posts: arrayUnion ({
                         createdAt: date,
                         id: date + user.email,

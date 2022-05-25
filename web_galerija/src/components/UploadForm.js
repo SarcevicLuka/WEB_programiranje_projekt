@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button, Modal, FormLabel, Alert} from 'react-bootstrap';
 import ProgressBar from './ProgressBar';
 
-const UploadForm = () => {
+const UploadForm = ({groupID}) => {
 
     const [submit, setSubmit] = useState(false);
     const [image, setImage] = useState(null);
     const [postDesc, setPostDesc] = useState("");
     const [error, setError] = useState(null);
     const types = ['image/png', 'image/jpeg'];
-
     const [show, setShow] = useState(false);
+    
+    
     const handleClose = () => {
         setImage(null);
         setPostDesc("");
@@ -57,7 +58,7 @@ const UploadForm = () => {
                         <Form.Control type="file" onChange={changeHandler}/>
                         <div>
                             {error && <Alert variant="warning" className="text-center mt-1">{error}</Alert>}
-                            {submit && <ProgressBar image={image} setImage={setImage} setSubmit={setSubmit} postDesc={postDesc}/>}
+                            {submit && <ProgressBar image={image} setImage={setImage} setSubmit={setSubmit} postDesc={postDesc} groupID={groupID}/>}
                         </div>
                         <Form.Group
                             className="mb-3 mt-2"

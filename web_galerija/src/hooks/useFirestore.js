@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
-import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs, arrayUnion } from 'firebase/firestore';
+import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
 const useFirestore = (col) => {
     const [posts, setPosts] = useState([]);
     const [groups, setGroups] = useState([]);
+    const [searchItems, setSearchItems] = useState([]);
     const { user } = useUserAuth();
     let date = Timestamp.now();
 
@@ -47,6 +48,16 @@ const useFirestore = (col) => {
         })
     }
 
+    const searchGroups = async (groupName) => {
+        const searchGroupsQuery = query(collection(firestore, "groups"), where('groupName', '==', `${groupName}`));
+        const querySnapshot = await getDocs(searchGroupsQuery);
+        let searchGroups = [];
+        querySnapshot.forEach((doc) => {
+            searchGroups.push({ ...doc.data(), groupName: doc.data().groupName, id: doc.id });
+        });
+        setSearchItems(searchGroups);
+    }
+
     useEffect(() => {
         const document = doc(firestore, col, `${user.email}`);
         const unsubscribePosts = onSnapshot(document, (doc) => {
@@ -54,13 +65,14 @@ const useFirestore = (col) => {
         })
 
         getUsersGroups();
+        searchGroups();
 
         return () => {
             unsubscribePosts();
         };
     }, [user])
 
-    return { posts, groups, deletePost, createGroup };
+    return { posts, groups, deletePost, createGroup, searchGroups, searchItems };
 }
 
 export default useFirestore;

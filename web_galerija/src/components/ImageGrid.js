@@ -3,8 +3,8 @@ import useFirestore from '../hooks/useFirestore';
 import { Container, Button } from "react-bootstrap";
 import { useUserAuth } from '../context/UserAuthContext';
 
-const ImageGrid = () => {
-    const { posts, deletePost } = useFirestore("users");
+const ImageGrid = ({collection}) => {
+    const { posts, deletePost } = useFirestore(collection);
     const { user } = useUserAuth();
 
     const handleDelete = async (id) => {

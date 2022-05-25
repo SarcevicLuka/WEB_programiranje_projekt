@@ -41,7 +41,7 @@ const NavBar = () => {
 
       <Offcanvas show={showCanvas} onHide={handleClose} scroll={true}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Your groups</Offcanvas.Title>
+          <Offcanvas.Title>Groups</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <CreateJoinGroupForm />
