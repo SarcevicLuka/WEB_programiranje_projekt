@@ -59,17 +59,17 @@ const useFirestore = (col, docID) => {
     }
 
     useEffect(() => {
-        const document = doc(firestore, col, docID);
-        const unsubscribePosts = onSnapshot(document, (doc) => {
-            setPosts(doc.data().posts);
-        })
+        try{
+            const document = doc(firestore, col, docID);
+            onSnapshot(document, (doc) => {
+                setPosts(doc.data().posts);
+            })
+        } catch (error){
+            console.log(error);
+        }
 
         getUsersGroups();
         searchGroups();
-
-        return () => {
-            unsubscribePosts();
-        };
     }, [user])
 
     return { posts, groups, deletePost, createGroup, searchGroups, searchItems };
