@@ -11,6 +11,7 @@ const Home = () => {
   return (
     <>
       <NavBar collection="users" docID={user.email}/>
+      <h2 className="page-title text-center">Private posts</h2>
       <div>
         <UploadForm collection="users" docID={user.email}/>
         <ImageGrid collection="users" docID={user.email}/>

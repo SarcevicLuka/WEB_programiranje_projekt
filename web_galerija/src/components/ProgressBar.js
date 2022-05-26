@@ -6,6 +6,7 @@ const ProgressBar = ({ image, setImage, setSubmit, postDesc, collection, docID }
     const { url, progress } = useStorage(image, postDesc, collection, docID);
     
     useEffect(() => {
+        console.log(postDesc);
         if(url){
             setImage(null);
             setSubmit(false);

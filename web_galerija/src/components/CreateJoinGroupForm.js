@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const CreateJoinGroupForm = ({collection, docID}) => {
 
     const [groupName, setGroupName] = useState("");
-    const { groups, createGroup, searchGroups, searchItems } = useFirestore(collection, docID);
+    const { groups, createGroup, searchGroups, searchItems, joinGroup } = useFirestore(collection, docID);
     const navigate = useNavigate();
 
     const handleCreate = () => {
@@ -23,13 +23,17 @@ const CreateJoinGroupForm = ({collection, docID}) => {
         }
     }
 
-    const handleGroupLink = (groupID) => {
-        navigate("/group", {state : {groupID : groupID}});
+    const handleGroupLink = (group) => {
+        navigate("/group", {state : {groupID : group.id, groupName: group.groupName}});
+    }
+
+    const handleJoinGroup = (groupID) =>{
+        joinGroup(groupID);
     }
 
     useEffect(() => {
         console.log("Use effect");
-    }, [groups, handleCreate, handleSearch, searchItems]);
+    }, [groups, handleCreate, handleSearch, searchItems, handleGroupLink]);
 
     return (
         <>
@@ -50,6 +54,7 @@ const CreateJoinGroupForm = ({collection, docID}) => {
                         </Form>
                     </Accordion.Body>
                 </Accordion.Item>
+
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Join group</Accordion.Header>
                     <Accordion.Body>
@@ -65,7 +70,12 @@ const CreateJoinGroupForm = ({collection, docID}) => {
                         <div>
                             <ListGroup>
                                 {searchItems && searchItems.map((item) => (
-                                    <ListGroup.Item className='searchItem'>{item.groupName}</ListGroup.Item>
+                                        <ListGroup.Item className='searchItem d-flex justify-content-between align-items-center'>{item.groupName}
+                                            <Button variant='outline-primary' onClick={() => handleJoinGroup(item.id)}>
+                                                Join
+                                            </Button>
+                                        
+                                        </ListGroup.Item>
                                 ))}
                             </ListGroup>
                         </div>
@@ -76,7 +86,7 @@ const CreateJoinGroupForm = ({collection, docID}) => {
                 <h5 className='mt-5'>My groups</h5>
                 <ListGroup className='group-list'>
                     {groups && groups.map((group) => (
-                        <ListGroup.Item className='group' action onClick={() => handleGroupLink(group.id)}>{group.groupName}</ListGroup.Item>
+                        <ListGroup.Item className='group' action onClick={() => handleGroupLink(group)}>{group.groupName}</ListGroup.Item>
                     ))
                     }
                 </ListGroup> 

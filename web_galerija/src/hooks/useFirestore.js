@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
-import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs } from 'firebase/firestore';
+import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
+import { connectAuthEmulator } from 'firebase/auth';
 
 const useFirestore = (col, docID) => {
     const [posts, setPosts] = useState([]);
@@ -35,6 +36,31 @@ const useFirestore = (col, docID) => {
         }
     }
 
+    const joinGroup = async (groupID) => {
+        const groupDoc = doc(firestore, 'groups', groupID);
+        try{
+            await updateDoc(groupDoc, {
+                users: arrayUnion (user.email)
+            })
+            console.log(groupID + " is joined")
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+    const leaveGroup = async () => {
+        console.log("firebase called")
+        const groupDoc = doc(firestore, 'groups', docID);
+        try{
+            await updateDoc(groupDoc, {
+                users: arrayRemove (user.email)
+            })
+            console.log(docID + " is left")
+        } catch(error){
+            console.log(error);
+        }
+    }
+
     const getUsersGroups = () => {
         const groupsDoc = collection(firestore, "groups");
         onSnapshot(groupsDoc, async () => {
@@ -53,6 +79,10 @@ const useFirestore = (col, docID) => {
         const querySnapshot = await getDocs(searchGroupsQuery);
         let searchGroups = [];
         querySnapshot.forEach((doc) => {
+            if(doc.data().users.includes(user.email)){
+                console.log("u are in");
+                return;
+            }
             searchGroups.push({ ...doc.data(), groupName: doc.data().groupName, id: doc.id });
         });
         setSearchItems(searchGroups);
@@ -72,7 +102,7 @@ const useFirestore = (col, docID) => {
         searchGroups();
     }, [user])
 
-    return { posts, groups, deletePost, createGroup, searchGroups, searchItems };
+    return { posts, groups, deletePost, createGroup, searchGroups, searchItems, joinGroup, leaveGroup };
 }
 
 export default useFirestore;

@@ -27,13 +27,15 @@ const useStorage = (image, postDesc, collection, docID) => {
         async () => {
             await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 let date = Timestamp.now();
+                console.log(postDesc);
                 setUrl(url);
                 updateDoc(docRef, {
                     posts: arrayUnion ({
                         createdAt: date,
                         id: date + user.email,
                         url: url,
-                        description: postDesc
+                        description: postDesc,
+                        postedBy: user.email
                     })
                 })
                 

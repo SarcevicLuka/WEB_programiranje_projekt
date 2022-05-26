@@ -14,7 +14,7 @@ const ImageGrid = ({collection, docID}) => {
 
     return (
         <Container>
-            <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
+            <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-1 mt-5 g-3">
                 {posts && posts.map((post) => (
                     <div className="col m-auto d-flex justify-content-center">
                         <figure className="figure">
@@ -29,7 +29,7 @@ const ImageGrid = ({collection, docID}) => {
                                 <div className='overlay'>
                                     <figcaption className="figure-caption">
                                         <h5>Posted by:</h5>
-                                        <p>{user.email}</p>
+                                        <p>{post.postedBy}</p>
                                         <p className='img-decription'>{post.description}</p>
                                         <Button variant="outline-danger" onClick={() => handleDelete(post.id)}>Delete</Button>
                                     </figcaption>

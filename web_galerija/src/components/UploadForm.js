@@ -17,6 +17,7 @@ const UploadForm = ({collection, docID}) => {
         setPostDesc("");
         setShow(false);
     }
+
     const handleShow = () => setShow(true);
 
     const changeHandler = (e) => {
@@ -30,8 +31,14 @@ const UploadForm = ({collection, docID}) => {
         }
     }
 
+    const handleDescription = (e) => {
+        setPostDesc(e.target.value);
+        console.log(postDesc);
+    }
+
     const handleUpload = () => {
         setSubmit(true);
+        setPostDesc("")
     }
 
     useEffect (() => {
@@ -43,7 +50,7 @@ const UploadForm = ({collection, docID}) => {
     return (
         <>
             <div className='text-center'>
-                <Button className="" variant="outline-primary" onClick={handleShow}>
+                <Button className="mt-2" variant="outline-primary" onClick={handleShow}>
                     Create a post
                 </Button>
             </div>
@@ -65,7 +72,7 @@ const UploadForm = ({collection, docID}) => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Enter post description</Form.Label>
-                            <Form.Control as="textarea" maxLength="70" rows={2} onChange={(e) => setPostDesc(e.target.value)}/>
+                            <Form.Control as="textarea" maxLength="70" rows={2} onChange={handleDescription}/>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
