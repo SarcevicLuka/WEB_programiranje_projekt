@@ -86,7 +86,7 @@ const CreateJoinGroupForm = ({collection, docID}) => {
                 <h5 className='mt-5'>My groups</h5>
                 <ListGroup className='group-list'>
                     {groups && groups.map((group) => (
-                        <ListGroup.Item className='group' action onClick={() => handleGroupLink(group)}>{group.groupName}</ListGroup.Item>
+                        <ListGroup.Item className='group' key={group.id} action onClick={() => handleGroupLink(group.id)}>{group.groupName}</ListGroup.Item>
                     ))
                     }
                 </ListGroup> 

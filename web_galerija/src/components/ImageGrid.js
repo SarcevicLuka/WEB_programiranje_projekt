@@ -16,13 +16,12 @@ const ImageGrid = ({collection, docID}) => {
         <Container>
             <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-1 mt-5 g-3">
                 {posts && posts.map((post) => (
-                    <div className="col m-auto d-flex justify-content-center">
+                    <div className="col m-auto d-flex justify-content-center" key={post.id}>
                         <figure className="figure">
                             <div className='img-container'>
                                 <img src={post.url}
                                     className="figure-img img-fluid rounded img-thumbnail"
                                     alt={post.description}
-                                    key={post.id}
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.5 }} />
