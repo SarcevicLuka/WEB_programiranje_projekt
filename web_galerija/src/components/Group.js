@@ -11,10 +11,9 @@ const Group = () => {
 
     return (
         <>
-            <h1>{groupID}</h1>
-            <NavBar />
+            <NavBar collection="groups"/>
             <div>
-                <UploadForm />
+                <UploadForm collection="groups"/>
                 <ImageGrid collection="groups"/>
             </div>
         </>

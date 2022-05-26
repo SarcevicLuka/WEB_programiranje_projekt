@@ -7,9 +7,9 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar collection="users"/>
       <div>
-        <UploadForm />
+        <UploadForm collection="users"/>
         <ImageGrid collection="users"/>
       </div>
     </>

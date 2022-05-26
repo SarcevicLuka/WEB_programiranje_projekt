@@ -3,13 +3,14 @@ import { Accordion, Form, Button, InputGroup, FormControl, ListGroup } from 'rea
 import useFirestore from '../hooks/useFirestore';
 import { useNavigate } from "react-router-dom";
 
-const CreateJoinGroupForm = () => {
+const CreateJoinGroupForm = ({collection}) => {
 
     const [groupName, setGroupName] = useState("");
-    const { groups, createGroup, searchGroups, searchItems } = useFirestore("users");
+    const { groups, createGroup, searchGroups, searchItems } = useFirestore(collection);
     const navigate = useNavigate();
 
     const handleCreate = () => {
+        console.log("created");
         createGroup(groupName);
     }
 
@@ -42,7 +43,7 @@ const CreateJoinGroupForm = () => {
                                 <FormControl
                                     aria-describedby="group-name" onChange={(e) => setGroupName(e.target.value)}
                                 />
-                                <Button variant="outline-success" id="button-addon2" onClick={() => handleCreate}>
+                                <Button variant="outline-success" id="button-addon2" onClick={handleCreate}>
                                     Create
                                 </Button>
                             </InputGroup>
@@ -57,7 +58,7 @@ const CreateJoinGroupForm = () => {
                             <FormControl
                                 aria-describedby="group-name" onChange={(e) => setGroupName(e.target.value)}
                             />
-                            <Button variant="outline-success" id="button-addon2" onClick={() => handleSearch}>
+                            <Button variant="outline-success" id="button-addon2" onClick={handleSearch}>
                                 Search
                             </Button>
                         </InputGroup>

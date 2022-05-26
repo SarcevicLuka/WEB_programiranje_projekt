@@ -12,7 +12,9 @@ const useFirestore = (col) => {
 
 
     const deletePost = async (result) => {
-        const document = doc(firestore, col, `${user.email}`);
+        if(col === "users"){
+            var document = doc(firestore, col, `${user.email}`);
+        }
         try {
             await updateDoc(document, {
                 posts: result,
@@ -59,7 +61,9 @@ const useFirestore = (col) => {
     }
 
     useEffect(() => {
-        const document = doc(firestore, col, `${user.email}`);
+        if(col === "users"){
+            var document = doc(firestore, col, `${user.email}`);
+        }
         const unsubscribePosts = onSnapshot(document, (doc) => {
             setPosts(doc.data().posts);
         })
