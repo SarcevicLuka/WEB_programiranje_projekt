@@ -3,7 +3,7 @@ import { firestore } from '../firebase';
 import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
-const useFirestore = (col) => {
+const useFirestore = (col, docID) => {
     const [posts, setPosts] = useState([]);
     const [groups, setGroups] = useState([]);
     const [searchItems, setSearchItems] = useState([]);
@@ -12,9 +12,7 @@ const useFirestore = (col) => {
 
 
     const deletePost = async (result) => {
-        if(col === "users"){
-            var document = doc(firestore, col, `${user.email}`);
-        }
+        const document = doc(firestore, col, docID);
         try {
             await updateDoc(document, {
                 posts: result,
@@ -61,9 +59,7 @@ const useFirestore = (col) => {
     }
 
     useEffect(() => {
-        if(col === "users"){
-            var document = doc(firestore, col, `${user.email}`);
-        }
+        const document = doc(firestore, col, docID);
         const unsubscribePosts = onSnapshot(document, (doc) => {
             setPosts(doc.data().posts);
         })

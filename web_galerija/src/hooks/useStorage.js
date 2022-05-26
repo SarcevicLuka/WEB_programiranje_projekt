@@ -4,7 +4,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { doc, Timestamp, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
 
-const useStorage = (image, postDesc, collection) => {
+const useStorage = (image, postDesc, collection, docID) => {
     const { user } = useUserAuth();
     const [progress, setProgress] = useState(0);
     const [error, setError] = useState(null);
@@ -14,13 +14,8 @@ const useStorage = (image, postDesc, collection) => {
 
 
     useEffect(() => {
-        if(collection === "users"){
-            var usersDocRef = doc(firestore, `${collection}`, `${user.email}`);
-            console.log("users");
-        }
-        /*else if(collection === "groups"){
-            var groupsDocRef = doc(firestore, `${collection}`, `${user.email}`);
-        }*/
+        const docRef = doc(firestore, collection, docID);
+
         const uploadTask = uploadBytesResumable(storageRef, image);
         uploadTask.on('state_changed', (snapshot) => {
             let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -33,7 +28,7 @@ const useStorage = (image, postDesc, collection) => {
             await getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 let date = Timestamp.now();
                 setUrl(url);
-                updateDoc(usersDocRef, {
+                updateDoc(docRef, {
                     posts: arrayUnion ({
                         createdAt: date,
                         id: date + user.email,

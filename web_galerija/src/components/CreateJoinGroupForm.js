@@ -3,10 +3,10 @@ import { Accordion, Form, Button, InputGroup, FormControl, ListGroup } from 'rea
 import useFirestore from '../hooks/useFirestore';
 import { useNavigate } from "react-router-dom";
 
-const CreateJoinGroupForm = ({collection}) => {
+const CreateJoinGroupForm = ({collection, docID}) => {
 
     const [groupName, setGroupName] = useState("");
-    const { groups, createGroup, searchGroups, searchItems } = useFirestore(collection);
+    const { groups, createGroup, searchGroups, searchItems } = useFirestore(collection, docID);
     const navigate = useNavigate();
 
     const handleCreate = () => {

@@ -11,10 +11,10 @@ const Group = () => {
 
     return (
         <>
-            <NavBar collection="groups"/>
+            <NavBar collection="groups" docID={groupID}/>
             <div>
-                <UploadForm collection="groups"/>
-                <ImageGrid collection="groups"/>
+                <UploadForm collection="groups" docID={groupID}/>
+                <ImageGrid collection="groups" docID={groupID}/>
             </div>
         </>
     )

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
 import CreateJoinGroupForm from "./CreateJoinGroupForm";
 
-const NavBar = ({collection}) => {
+const NavBar = ({collection, docID}) => {
   const [error, setError] = useState(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const { logOut, user } = useUserAuth();
@@ -44,7 +44,7 @@ const NavBar = ({collection}) => {
           <Offcanvas.Title>Groups</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <CreateJoinGroupForm collection={collection}/>
+          <CreateJoinGroupForm collection={collection} docID={docID}/>
         </Offcanvas.Body>
       </Offcanvas>
     </Navbar>
