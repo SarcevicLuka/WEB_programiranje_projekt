@@ -24,7 +24,10 @@ const CreateJoinGroupForm = ({collection, docID}) => {
     }
 
     const handleGroupLink = (group) => {
-        navigate("/group", {state : {groupID : group.id, groupName: group.groupName}});
+        navigate("/home");
+        setTimeout(() => {
+            navigate("/group", {state : {groupID : group.id, groupName: group.groupName}});
+        }, 1)
     }
 
     const handleJoinGroup = (groupID) =>{
@@ -32,7 +35,7 @@ const CreateJoinGroupForm = ({collection, docID}) => {
     }
 
     useEffect(() => {
-        console.log("Use effect");
+        //console.log("Use effect");
     }, [groups, handleCreate, handleSearch, searchItems, handleGroupLink]);
 
     return (
@@ -86,7 +89,7 @@ const CreateJoinGroupForm = ({collection, docID}) => {
                 <h5 className='mt-5'>My groups</h5>
                 <ListGroup className='group-list'>
                     {groups && groups.map((group) => (
-                        <ListGroup.Item className='group' key={group.id} action onClick={() => handleGroupLink(group.id)}>{group.groupName}</ListGroup.Item>
+                        <ListGroup.Item className='group' key={group.id} action onClick={() => handleGroupLink(group)}>{group.groupName}</ListGroup.Item>
                     ))
                     }
                 </ListGroup> 

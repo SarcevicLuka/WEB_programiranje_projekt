@@ -38,7 +38,6 @@ const UploadForm = ({collection, docID}) => {
 
     const handleUpload = () => {
         setSubmit(true);
-        setPostDesc("")
     }
 
     useEffect (() => {
@@ -50,7 +49,7 @@ const UploadForm = ({collection, docID}) => {
     return (
         <>
             <div className='text-center'>
-                <Button className="mt-2" variant="outline-primary" onClick={handleShow}>
+                <Button className="mt-2" variant="primary" onClick={handleShow}>
                     Create a post
                 </Button>
             </div>

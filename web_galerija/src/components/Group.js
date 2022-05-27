@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import UploadForm from './UploadForm';
 import ImageGrid from './ImageGrid';
 import { useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import useFirestore from '../hooks/useFirestore';
+import { useNavigate } from 'react-router-dom';
 
 const Group = () => {
 
     const { state } = useLocation();
     const { groupID, groupName } = state;
     const { leaveGroup } = useFirestore("groups", groupID);
+    const navigate = useNavigate();
 
     const handleLeaveGroup = () => {
-        console.log("handler called")
         leaveGroup();
+        navigate("/home");
     }
+
+    useEffect(() => {
+        console.log("Group useEffect", groupName);
+        
+    }, [])
 
     return (
         <>

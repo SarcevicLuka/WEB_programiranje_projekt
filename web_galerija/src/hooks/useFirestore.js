@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
 import { onSnapshot, doc, updateDoc, setDoc, Timestamp, collection, query, where, getDocs, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { useUserAuth } from '../context/UserAuthContext';
-import { connectAuthEmulator } from 'firebase/auth';
 
 const useFirestore = (col, docID) => {
     const [posts, setPosts] = useState([]);

@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ImageGrid from "./ImageGrid";
 import UploadForm from "./UploadForm";
 import NavBar from "./NavBar";
 import { useUserAuth } from '../context/UserAuthContext';
+import { connectAuthEmulator } from "firebase/auth";
 
 const Home = () => {
 
   const { user } = useUserAuth();
+
+  useEffect(() => {
+    console.log("Home page");
+  }, [])
 
   return (
     <>

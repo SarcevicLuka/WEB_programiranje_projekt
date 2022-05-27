@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFirestore from '../hooks/useFirestore';
 import { Container, Button } from "react-bootstrap";
-import { useUserAuth } from '../context/UserAuthContext';
 
 const ImageGrid = ({collection, docID}) => {
+    
     const { posts, deletePost } = useFirestore(collection, docID);
-    const { user } = useUserAuth();
 
     const handleDelete = async (id) => {
         const result = posts.filter((post) => post.id !== id)
         deletePost(result);
     }
+
+    useEffect(() => {
+        console.log("Image grid use effect", collection, docID, posts);
+    }, [docID, posts])
 
     return (
         <Container>

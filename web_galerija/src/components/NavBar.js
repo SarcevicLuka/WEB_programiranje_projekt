@@ -32,10 +32,10 @@ const NavBar = ({collection, docID}) => {
           <Nav className="ms-5">
             <Nav.Link onClick={handleShow}>Groups</Nav.Link>
           </Nav>
-          <NavDropdown title={"Signed in as: " + user.email} id="navbarScrollingDropdown" className="ms-auto">
+          {user && <NavDropdown title={"Signed in as: " + user.email} id="navbarScrollingDropdown" className="ms-auto">
             <NavDropdown.Item onClick={handleLogout}>Sign Out</NavDropdown.Item>
             {error && <Alert variant="danger">{error}</Alert>}
-          </NavDropdown>
+          </NavDropdown>}
         </Navbar.Collapse>
       </Container>
 
