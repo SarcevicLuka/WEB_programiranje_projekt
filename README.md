@@ -12,7 +12,6 @@ Sve informacije se spremaju na server.
 - HTML
 - CSS
 - JavaScript
-- Node.js
 - react
 - Firebase
 

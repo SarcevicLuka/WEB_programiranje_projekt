@@ -1,23 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFirestore from '../hooks/useFirestore';
-import { motion } from 'framer-motion';
+import { Container, Button } from "react-bootstrap";
 
-const ImageGrid = () => {
-    const { docs } = useFirestore('images');
-    console.log(docs);
+const ImageGrid = ({collection, docID}) => {
+    
+    const { posts, deletePost } = useFirestore(collection, docID);
+
+    const handleDelete = async (id) => {
+        const result = posts.filter((post) => post.id !== id)
+        deletePost(result);
+    }
+
+    useEffect(() => {
+        console.log("Image grid use effect", collection, docID, posts);
+    }, [docID, posts])
 
     return (
-        <div className="img-grid">
-            { docs && docs.map((doc) => (
-                <motion.div className='img-wrap' key={doc.id}
-                    layout> 
-                    <motion.img src={doc.url} alt="alternate text"
-                        initial={{opacity: 0}}
-                        animate={{opacity: 1}}
-                        transition={{delay: 1}}/> 
-                </motion.div>
-            )) }
-        </div>
+        <Container>
+            <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-1 mt-5 g-3">
+                {posts && posts.map((post) => (
+                    <div className="col m-auto d-flex justify-content-center" key={post.id}>
+                        <figure className="figure">
+                            <div className='img-container'>
+                                <img src={post.url}
+                                    className="figure-img img-fluid rounded img-thumbnail"
+                                    alt={post.description}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.5 }} />
+                                <div className='overlay'>
+                                    <figcaption className="figure-caption">
+                                        <h5>Posted by:</h5>
+                                        <p>{post.postedBy}</p>
+                                        <p className='img-decription'>{post.description}</p>
+                                        <Button variant="outline-danger" onClick={() => handleDelete(post.id)}>Delete</Button>
+                                    </figcaption>
+                                </div>
+                            </div>
+                        </figure>
+                    </div>
+                ))}
+            </div>
+        </Container>
     )
 }
 

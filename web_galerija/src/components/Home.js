@@ -1,35 +1,25 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router";
-import { useUserAuth } from "../context/UserAuthContext";
+import React, {useEffect} from "react";
 import ImageGrid from "./ImageGrid";
-import UploadForm from "./UploadForm"
+import UploadForm from "./UploadForm";
+import NavBar from "./NavBar";
+import { useUserAuth } from '../context/UserAuthContext';
+import { connectAuthEmulator } from "firebase/auth";
 
 const Home = () => {
-  const { logOut, user } = useUserAuth();
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    try {
-      await logOut();
-      navigate("/login");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+
+  const { user } = useUserAuth();
+
+  useEffect(() => {
+    console.log("Home page");
+  }, [])
+
   return (
     <>
-      <div className="p-4 box mt-3 text-center">
-        Hello Welcome <br />
-        {user && user.email}
-      </div>
-      <div className="d-grid gap-2">
-        <Button variant="primary" onClick={handleLogout}>
-          Log out
-        </Button>
-      </div>
+      <NavBar collection="users" docID={user.email}/>
+      <h2 className="page-title text-center">Private posts</h2>
       <div>
-        <UploadForm />
-        <ImageGrid />
+        <UploadForm collection="users" docID={user.email}/>
+        <ImageGrid collection="users" docID={user.email}/>
       </div>
     </>
   );

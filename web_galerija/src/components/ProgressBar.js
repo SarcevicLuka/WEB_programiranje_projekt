@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react'
-import useStorage from '../hooks/useStorage'
+import React, { useEffect } from 'react';
+import { ProgressBar as Bar } from 'react-bootstrap'
+import useStorage from '../hooks/useStorage';
 
-const ProgressBar = ({ image, setImage }) => {
-    const { url, progress } = useStorage(image);
-    //console.log(url);
+const ProgressBar = ({ image, setImage, setSubmit, postDesc, collection, docID }) => {
+    const { url, progress } = useStorage(image, postDesc, collection, docID);
     
     useEffect(() => {
+        console.log(postDesc);
         if(url){
             setImage(null);
+            setSubmit(false);
         }
-    }, [url, setImage])
+    }, [url, setImage, setSubmit]);
 
     return (
-        <div className="progress-bar" style={{width: progress + '%'}}></div>
+        <Bar now={progress} label={`${progress}%`}/>
     )
 }
 
-export default ProgressBar
+export default ProgressBar;
