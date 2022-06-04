@@ -19,11 +19,6 @@ const Group = () => {
         navigate("/home");
     }
 
-    useEffect(() => {
-        console.log("Group useEffect", groupName);
-        
-    }, [])
-
     return (
         <>
             <NavBar collection="groups" docID={groupID}/>

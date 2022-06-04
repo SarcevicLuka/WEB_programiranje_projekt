@@ -1,18 +1,27 @@
 import React, { useEffect } from 'react';
 import useFirestore from '../hooks/useFirestore';
 import { Container, Button } from "react-bootstrap";
+import { useUserAuth } from '../context/UserAuthContext';
 
-const ImageGrid = ({collection, docID}) => {
-    
+const ImageGrid = ({ collection, docID }) => {
+
     const { posts, deletePost } = useFirestore(collection, docID);
+    const { user } = useUserAuth();
 
-    const handleDelete = async (id) => {
-        const result = posts.filter((post) => post.id !== id)
-        deletePost(result);
+    const handleDelete = async (post) => {
+        const postID = post.id;
+
+        if (post.postedBy === user.email) {
+            const result = posts.filter((post) => post.id !== postID)
+            deletePost(result);
+        }
+        else {
+            alert("Cannot delete other users posts!");
+        }
+
     }
 
     useEffect(() => {
-        console.log("Image grid use effect", collection, docID, posts);
     }, [docID, posts])
 
     return (
@@ -33,7 +42,7 @@ const ImageGrid = ({collection, docID}) => {
                                         <h5>Posted by:</h5>
                                         <p>{post.postedBy}</p>
                                         <p className='img-decription'>{post.description}</p>
-                                        <Button variant="outline-danger" onClick={() => handleDelete(post.id)}>Delete</Button>
+                                        <Button variant="outline-danger" onClick={() => handleDelete(post)}>Delete</Button>
                                     </figcaption>
                                 </div>
                             </div>

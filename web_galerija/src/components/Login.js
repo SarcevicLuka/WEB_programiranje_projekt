@@ -3,7 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Alert, Container, Button } from "react-bootstrap";
 import { useUserAuth } from "../context/UserAuthContext";
 
-function LogIn() {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { logIn, user } = useUserAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -20,8 +26,9 @@ function LogIn() {
       navigate("/home");
     }
   }, [user])
-    return (
-      <>
+
+  return (
+    <>
       <Container style={{maxWidth: "400px"}}>
         <div className="p-4 box">
           <h2 className="mb-3 text-center">Log In</h2>
@@ -56,7 +63,7 @@ function LogIn() {
         </div>
       </Container>
     </>
-    )
-}
-export default LogIn;
-  
+  );
+};
+
+export default Login;
